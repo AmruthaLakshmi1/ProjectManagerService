@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FinalSBADBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblParent">
+          <Key>
+            <PropertyRef Name="ParentId" />
+          </Key>
+          <Property Name="ParentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentName" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProject">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="20" />
+          <Property Name="PStartDate" Type="date" />
+          <Property Name="PEndDate" Type="date" />
+          <Property Name="PPriority" Type="int" />
+          <Property Name="ManagerId" Type="int" />
+          <Property Name="Nooftasks" Type="int" />
+          <Property Name="completed" Type="int" />
+          <Property Name="Pstatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TStartDate" Type="date" />
+          <Property Name="TEndDate" Type="date" />
+          <Property Name="TPriority" Type="int" />
+          <Property Name="TStatus" Type="bit" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="ParentTaskName" Type="nvarchar" MaxLength="20" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="EmployeeId" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblTask__ParentI__32AB8735">
+          <End Role="tblParent" Type="Self.tblParent" Multiplicity="0..1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblParent">
+              <PropertyRef Name="ParentId" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTask__Project__31B762FC">
+          <End Role="tblProject" Type="Self.tblProject" Multiplicity="0..1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProject">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalSBADBModelStoreContainer">
+          <EntitySet Name="tblParent" EntityType="Self.tblParent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProject" EntityType="Self.tblProject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTask" EntityType="Self.tblTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblTask__ParentI__32AB8735" Association="Self.FK__tblTask__ParentI__32AB8735">
+            <End Role="tblParent" EntitySet="tblParent" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTask__Project__31B762FC" Association="Self.FK__tblTask__Project__31B762FC">
+            <End Role="tblProject" EntitySet="tblProject" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinalSBADBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblParent">
+          <Key>
+            <PropertyRef Name="ParentId" />
+          </Key>
+          <Property Name="ParentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tblTasks" Relationship="Self.FK__tblTask__ParentI__32AB8735" FromRole="tblParent" ToRole="tblTask" />
+        </EntityType>
+        <EntityType Name="tblProject">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PStartDate" Type="DateTime" Precision="0" />
+          <Property Name="PEndDate" Type="DateTime" Precision="0" />
+          <Property Name="PPriority" Type="Int32" />
+          <Property Name="ManagerId" Type="Int32" />
+          <Property Name="Nooftasks" Type="Int32" />
+          <Property Name="completed" Type="Int32" />
+          <Property Name="Pstatus" Type="Boolean" />
+          <NavigationProperty Name="tblTasks" Relationship="Self.FK__tblTask__Project__31B762FC" FromRole="tblProject" ToRole="tblTask" />
+        </EntityType>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TStartDate" Type="DateTime" Precision="0" />
+          <Property Name="TEndDate" Type="DateTime" Precision="0" />
+          <Property Name="TPriority" Type="Int32" />
+          <Property Name="TStatus" Type="Boolean" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="ParentTaskName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="tblParent" Relationship="Self.FK__tblTask__ParentI__32AB8735" FromRole="tblTask" ToRole="tblParent" />
+          <NavigationProperty Name="tblProject" Relationship="Self.FK__tblTask__Project__31B762FC" FromRole="tblTask" ToRole="tblProject" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblTask__ParentI__32AB8735">
+          <End Role="tblParent" Type="Self.tblParent" Multiplicity="0..1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblParent">
+              <PropertyRef Name="ParentId" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTask__Project__31B762FC">
+          <End Role="tblProject" Type="Self.tblProject" Multiplicity="0..1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProject">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalSBADBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblParents" EntityType="Self.tblParent" />
+          <EntitySet Name="tblProjects" EntityType="Self.tblProject" />
+          <EntitySet Name="tblTasks" EntityType="Self.tblTask" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <AssociationSet Name="FK__tblTask__ParentI__32AB8735" Association="Self.FK__tblTask__ParentI__32AB8735">
+            <End Role="tblParent" EntitySet="tblParents" />
+            <End Role="tblTask" EntitySet="tblTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTask__Project__31B762FC" Association="Self.FK__tblTask__Project__31B762FC">
+            <End Role="tblProject" EntitySet="tblProjects" />
+            <End Role="tblTask" EntitySet="tblTasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinalSBADBModelStoreContainer" CdmEntityContainer="FinalSBADBEntities">
+          <EntitySetMapping Name="tblParents">
+            <EntityTypeMapping TypeName="FinalSBADBModel.tblParent">
+              <MappingFragment StoreEntitySet="tblParent">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProjects">
+            <EntityTypeMapping TypeName="FinalSBADBModel.tblProject">
+              <MappingFragment StoreEntitySet="tblProject">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="PStartDate" ColumnName="PStartDate" />
+                <ScalarProperty Name="PEndDate" ColumnName="PEndDate" />
+                <ScalarProperty Name="PPriority" ColumnName="PPriority" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="Nooftasks" ColumnName="Nooftasks" />
+                <ScalarProperty Name="completed" ColumnName="completed" />
+                <ScalarProperty Name="Pstatus" ColumnName="Pstatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTasks">
+            <EntityTypeMapping TypeName="FinalSBADBModel.tblTask">
+              <MappingFragment StoreEntitySet="tblTask">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TStartDate" ColumnName="TStartDate" />
+                <ScalarProperty Name="TEndDate" ColumnName="TEndDate" />
+                <ScalarProperty Name="TPriority" ColumnName="TPriority" />
+                <ScalarProperty Name="TStatus" ColumnName="TStatus" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ParentTaskName" ColumnName="ParentTaskName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="FinalSBADBModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

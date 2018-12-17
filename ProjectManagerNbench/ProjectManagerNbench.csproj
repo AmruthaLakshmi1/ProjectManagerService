@@ -53,6 +53,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectManagerBAL\ProjectManagerBAL.csproj">
+      <Project>{bbf0e53e-5081-460d-a5b1-c9c47912e7ef}</Project>
+      <Name>ProjectManagerBAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectManagerDAL\ProjectManagerDAL.csproj">
+      <Project>{3126d2f3-370e-4bd0-ae07-3a993c277e80}</Project>
+      <Name>ProjectManagerDAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
